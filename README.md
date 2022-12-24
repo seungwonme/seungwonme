@@ -1,5 +1,5 @@
-[![Anurag's GitHub stats](https://github-readme-stats.vercel.app/apiseungwonme&theme=rose_pine)](https://github.com/anuraghazra/github-readme-stats)
-[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/seungwonme&layout=compact)](https://github.com/anuraghazra/github-readme-stats)
+[![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=seungwonme&theme=rose_pine)](https://github.com/anuraghazra/github-readme-stats)
+[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/username=seungwonme&layout=compact)](https://github.com/anuraghazra/github-readme-stats)
 
 <!---
 seungwonme/seungwonme is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
