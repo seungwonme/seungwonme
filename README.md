@@ -12,6 +12,7 @@
   <!--https://github.com/Ileriayo/markdown-badges-->
   ![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white)
   ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+  ![LangChain](https://img.shields.io/static/v1?style=for-the-badge&message=LangChain&color=1C3C3C&logo=LangChain&logoColor=FFFFFF&label=)
   ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
   ![React](https://shields.io/badge/react-black?logo=react&style=for-the-badge)
   ![NextJS](https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
