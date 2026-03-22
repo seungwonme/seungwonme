@@ -5,6 +5,7 @@
   ### Seungwon
   
   ---
+  <a href="https://seunan.dev"><img src="https://img.shields.io/badge/seunan.dev-1e1e2e?style=for-the-badge&logo=googlechrome&logoColor=white"/></a>
   <a href="https://github.com/orgs/CS-Organize/repositories/"><img src="https://img.shields.io/badge/CS-000000?style=for-the-badge&logo=github&logoColor=white"/></a>
   <a href="https://profile.intra.42.fr/users/seunan"><img src="https://img.shields.io/badge/seunan-000000?style=flat&logo=42&logoColor=white"/></a>
   <!--<a href="https://velog.io/@k1dk"><img src="https://img.shields.io/badge/k1dk.log-3DDC84?style=for-the-badge&logo=Velog&logoColor=white"/></a>-->
@@ -18,4 +19,3 @@
   [![NextJS](https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/docs)
   
 </div>
-
