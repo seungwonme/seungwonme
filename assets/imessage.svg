@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="988" viewBox="0 0 900 988" role="img" aria-labelledby="title desc">
+  <title id="title">Aiden's live GitHub profile conversation</title>
+  <desc id="desc">An iMessage-style profile showing Seoul weather, today's date, and repositories pinned by seungwonme.</desc>
+  <style>
+    :root { color-scheme: light dark; }
+    .canvas { fill: #f5f5f7; }
+    .panel { fill: #ffffff; stroke: #d2d2d7; }
+    .header { fill: #f8f8fa; }
+    .divider { stroke: #d9d9de; }
+    .title { fill: #161617; font: 700 19px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .status { fill: #6e6e73; font: 500 12px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .bubble.primary { fill: #0a84ff; }
+    .bubble.secondary { fill: #e9e9eb; }
+    .body-light { fill: #ffffff; font: 500 18px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .body-dark { fill: #161617; font: 500 18px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .subtle-light { fill: #dcecff; font: 500 14px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .subtle-dark { fill: #66666b; font: 500 14px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .repo-title { fill: #161617; font: 700 15px ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .repo-description { fill: #4b4b50; font: 500 13px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .repo-meta { fill: #6e6e73; font: 600 11px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .credit { fill: #77777c; font: 500 11px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .message { animation: message-in .42s cubic-bezier(.2,.8,.2,1) backwards; }
+    @keyframes message-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @media (prefers-color-scheme: dark) {
+      .canvas { fill: #0d1117; }
+      .panel { fill: #161b22; stroke: #30363d; }
+      .header { fill: #1c2128; }
+      .divider { stroke: #30363d; }
+      .title, .body-dark, .repo-title { fill: #f0f6fc; }
+      .status, .subtle-dark, .repo-meta, .credit { fill: #8b949e; }
+      .bubble.secondary { fill: #30363d; }
+      .repo-description { fill: #c9d1d9; }
+    }
+    @media (prefers-reduced-motion: reduce) { .message { animation: none; } }
+  </style>
+  <rect width="900" height="988" rx="28" class="canvas"/>
+  <rect x="18" y="18" width="864" height="952" rx="24" class="panel"/>
+  <path d="M42 18h816a24 24 0 0 1 24 24v62H18V42a24 24 0 0 1 24-24Z" class="header"/>
+  <line x1="18" y1="104" x2="882" y2="104" class="divider"/>
+  <circle cx="450" cy="55" r="23" fill="#0a84ff"/>
+  <text x="450" y="62" text-anchor="middle" class="body-light">A</text>
+  <text x="450" y="91" text-anchor="middle" class="title">Aiden</text>
+  <circle cx="476" cy="91" r="4" fill="#30d158"/>
+
+  <g class="message incoming" style="animation-delay:.15s">
+    <rect x="42" y="132" width="292" height="58" rx="24" class="bubble secondary"/>
+    <text x="66" y="168" class="body-dark">Hey, I’m Aiden 👋</text>
+  </g>
+  <g class="message outgoing" style="animation-delay:.55s">
+    <rect x="226" y="204" width="632" height="78" rx="24" class="bubble primary"/>
+    <text x="250" y="236" class="body-light"><tspan x="250" dy="0">I build AI-native systems that turn</tspan><tspan x="250" dy="24">information into useful work.</tspan></text>
+  </g>
+  <g class="message incoming" style="animation-delay:.95s">
+    <rect x="42" y="296" width="548" height="78" rx="24" class="bubble secondary"/>
+    <text x="66" y="328" class="body-dark">Seoul · Weather API awaiting setup</text>
+    <text x="66" y="353" class="subtle-dark">Add OPENWEATHER_API_KEY to enable live weather</text>
+  </g>
+  <g class="message outgoing" style="animation-delay:1.35s">
+    <rect x="410" y="390" width="448" height="58" rx="24" class="bubble primary"/>
+    <text x="434" y="426" class="body-light">Here’s what I’m building right now ↓</text>
+  </g>
+
+  <g class="message incoming" style="animation-delay:1.65s">
+    <rect x="42" y="468" width="706" height="94" rx="24" class="bubble secondary"/>
+    <text x="66" y="497" class="repo-title"><tspan x="66" dy="0">seungwonme/skim</tspan></text>
+    <text x="66" y="522" class="repo-description"><tspan x="66" dy="0">Local-first information curation pipeline for feeds, social</tspan><tspan x="66" dy="19">timelines, papers, videos, and AI lab updates.</tspan></text>
+    <text x="722" y="497" text-anchor="end" class="repo-meta">Python</text>
+  </g>
+<g class="message incoming" style="animation-delay:1.85s">
+    <rect x="42" y="576" width="706" height="94" rx="24" class="bubble secondary"/>
+    <text x="66" y="605" class="repo-title"><tspan x="66" dy="0">ai-native-engineer/linkedin-cli</tspan></text>
+    <text x="66" y="630" class="repo-description"><tspan x="66" dy="0">Terminal-first LinkedIn CLI: unofficial session-based reads +</tspan><tspan x="66" dy="19">official OAuth publishing, with packaged Codex/Claude skills</tspan></text>
+    <text x="722" y="605" text-anchor="end" class="repo-meta">Python</text>
+  </g>
+<g class="message incoming" style="animation-delay:2.05s">
+    <rect x="42" y="684" width="706" height="94" rx="24" class="bubble secondary"/>
+    <text x="66" y="713" class="repo-title"><tspan x="66" dy="0">ai-native-engineer/astack</tspan></text>
+    <text x="66" y="738" class="repo-description"><tspan x="66" dy="0">Aiden&apos;s Stack — curated Claude Code skills, installable as a</tspan><tspan x="66" dy="19">plugin.</tspan></text>
+    <text x="722" y="713" text-anchor="end" class="repo-meta">Python · ★ 1</text>
+  </g>
+<g class="message incoming" style="animation-delay:2.25s">
+    <rect x="42" y="792" width="706" height="94" rx="24" class="bubble secondary"/>
+    <text x="66" y="821" class="repo-title"><tspan x="66" dy="0">seungwonme/ai-podcast</tspan></text>
+    <text x="66" y="846" class="repo-description"><tspan x="66" dy="0">AI 한 주 브리핑 — 비개발자용 AI 뉴스 팟캐스트 (AI 음성)</tspan></text>
+    <text x="722" y="821" text-anchor="end" class="repo-meta">Shell</text>
+  </g>
+  <text x="450" y="946" text-anchor="middle" class="credit">Updated by Node.js + GitHub GraphQL + OpenWeather · Weather data provided by OpenWeather</text>
+</svg>

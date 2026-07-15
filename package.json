@@ -1,0 +1,17 @@
+{
+  "name": "seungwonme-profile",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.3.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "update-profile": "node scripts/update-profile.mjs",
+    "preview": "node scripts/update-profile.mjs --preview",
+    "test": "node scripts/update-profile.mjs --self-test"
+  },
+  "dependencies": {
+    "@octokit/graphql": "9.0.3"
+  }
+}

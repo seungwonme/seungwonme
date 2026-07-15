@@ -1,0 +1,56 @@
+name: Update profile card
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-profile-card
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.3.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Generate profile card
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}
+          PROFILE_LOGIN: ${{ github.repository_owner }}
+        run: |
+          if [ -z "$OPENWEATHER_API_KEY" ]; then
+            echo "::notice::Add the OPENWEATHER_API_KEY repository secret to enable live weather."
+            pnpm preview
+          else
+            pnpm update-profile
+          fi
+
+      - name: Commit updated card
+        run: |
+          if git diff --quiet -- assets/imessage.svg; then
+            echo "Profile card is already current."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/imessage.svg
+          git commit -m "chore: refresh profile card"
+          git push
