@@ -2,7 +2,7 @@ name: Update profile card
 
 on:
   schedule:
-    - cron: "0 0 * * *"
+    - cron: "17 0 * * *"
   workflow_dispatch:
 
 permissions:
@@ -33,15 +33,8 @@ jobs:
       - name: Generate profile card
         env:
           GH_TOKEN: ${{ github.token }}
-          OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}
           PROFILE_LOGIN: ${{ github.repository_owner }}
-        run: |
-          if [ -z "$OPENWEATHER_API_KEY" ]; then
-            echo "::notice::Add the OPENWEATHER_API_KEY repository secret to enable live weather."
-            pnpm preview
-          else
-            pnpm update-profile
-          fi
+        run: pnpm update-profile
 
       - name: Commit updated card
         run: |

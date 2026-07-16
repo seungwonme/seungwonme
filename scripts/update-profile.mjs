@@ -9,6 +9,7 @@ const OUTPUT_PATH = resolve(
   dirname(fileURLToPath(import.meta.url)),
   "../assets/imessage.svg",
 );
+const WIDTH = 1000;
 const SEOUL = { latitude: "37.5665", longitude: "126.9780" };
 
 const escapeXml = (value) =>
@@ -19,7 +20,7 @@ const escapeXml = (value) =>
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&apos;");
 
-function wrapText(value, maxLength = 62, maxLines = 2) {
+function wrapText(value, maxLength = 58, maxLines = 2) {
   const words = String(value || "No description yet.").trim().split(/\s+/);
   const lines = [];
   let line = "";
@@ -36,22 +37,29 @@ function wrapText(value, maxLength = 62, maxLines = 2) {
   }
   if (lines.length < maxLines && line) lines.push(line);
 
-  const consumed = lines.join(" ").length;
-  if (consumed < words.join(" ").length && lines.length) {
+  if (lines.join(" ").length < words.join(" ").length && lines.length) {
     lines[lines.length - 1] = `${lines.at(-1).replace(/[.,;:]?$/, "")}…`;
   }
   return lines.slice(0, maxLines);
 }
 
-function weatherEmoji(id, icon = "") {
-  if (id >= 200 && id < 300) return "⛈️";
-  if (id >= 300 && id < 400) return "🌦️";
-  if (id >= 500 && id < 600) return "🌧️";
-  if (id >= 600 && id < 700) return "❄️";
-  if (id >= 700 && id < 800) return "🌫️";
-  if (id === 800) return icon.endsWith("n") ? "🌙" : "☀️";
-  if (id === 801) return "🌤️";
-  return "☁️";
+function weatherDetails(symbolCode) {
+  const symbol = String(symbolCode).toLowerCase();
+  const isNight = symbol.endsWith("_night");
+  if (symbol.startsWith("clearsky")) {
+    return { emoji: isNight ? "🌙" : "☀", description: "clear sky" };
+  }
+  if (symbol.startsWith("fair")) {
+    return { emoji: isNight ? "🌙" : "🌤", description: "mainly clear" };
+  }
+  if (symbol.startsWith("partlycloudy")) return { emoji: "⛅", description: "partly cloudy" };
+  if (symbol.startsWith("cloudy")) return { emoji: "☁", description: "cloudy" };
+  if (symbol.includes("fog")) return { emoji: "🌫", description: "foggy" };
+  if (symbol.includes("thunder")) return { emoji: "⛈", description: "thunderstorm" };
+  if (symbol.includes("snow")) return { emoji: "❄", description: "snow" };
+  if (symbol.includes("sleet")) return { emoji: "🌨", description: "sleet" };
+  if (symbol.includes("rain")) return { emoji: "🌧", description: "rain" };
+  return { emoji: "🌡️", description: "changing weather" };
 }
 
 function seoulDate(now = new Date()) {
@@ -60,6 +68,13 @@ function seoulDate(now = new Date()) {
     weekday: "long",
     month: "long",
     day: "numeric",
+  }).format(now);
+}
+
+function seoulWeekday(now = new Date()) {
+  return new Intl.DateTimeFormat("en-US", {
+    timeZone: "Asia/Seoul",
+    weekday: "long",
   }).format(now);
 }
 
@@ -92,37 +107,46 @@ async function fetchPinnedRepositories(token) {
   return repositories;
 }
 
-async function fetchWeather(apiKey) {
-  if (!apiKey) throw new Error("OPENWEATHER_API_KEY is required.");
-
-  const url = new URL("https://api.openweathermap.org/data/2.5/weather");
+async function fetchWeather() {
+  const url = new URL("https://api.met.no/weatherapi/locationforecast/2.0/compact");
   url.search = new URLSearchParams({
-    ...SEOUL,
-    appid: apiKey,
-    units: "metric",
-    lang: "en",
+    lat: SEOUL.latitude,
+    lon: SEOUL.longitude,
   });
-  const response = await fetch(url, { signal: AbortSignal.timeout(10_000) });
-  if (!response.ok) throw new Error(`OpenWeather returned HTTP ${response.status}.`);
+  const response = await fetch(url, {
+    headers: {
+      Accept: "application/json",
+      "User-Agent": "seungwonme-profile/1.0 github.com/seungwonme",
+    },
+    signal: AbortSignal.timeout(10_000),
+  });
+  if (!response.ok) throw new Error(`MET Norway returned HTTP ${response.status}.`);
+  return parseWeather(await response.json());
+}
 
-  const data = await response.json();
-  const condition = data.weather?.[0];
+function parseWeather(data) {
+  const forecast = data.properties?.timeseries?.[0]?.data;
+  const instant = forecast?.instant?.details;
+  const symbolCode =
+    forecast?.next_1_hours?.summary?.symbol_code ||
+    forecast?.next_6_hours?.summary?.symbol_code;
   if (
-    typeof data.main?.temp !== "number" ||
-    typeof data.main?.feels_like !== "number" ||
-    typeof condition?.id !== "number"
+    typeof instant?.air_temperature !== "number" ||
+    typeof instant?.relative_humidity !== "number" ||
+    typeof instant?.wind_speed !== "number" ||
+    typeof symbolCode !== "string"
   ) {
-    throw new Error("OpenWeather returned an unexpected response.");
+    throw new Error("MET Norway returned an unexpected response.");
   }
   return {
-    temperature: Math.round(data.main.temp),
-    feelsLike: Math.round(data.main.feels_like),
-    description: condition.description,
-    emoji: weatherEmoji(condition.id, condition.icon),
+    temperature: Math.round(instant.air_temperature),
+    humidity: Math.round(instant.relative_humidity),
+    windSpeed: Math.round(instant.wind_speed),
+    ...weatherDetails(symbolCode),
   };
 }
 
-function textLines(lines, x, y, className, lineHeight = 22) {
+function textLines(lines, x, y, className, lineHeight = 34) {
   return `<text x="${x}" y="${y}" class="${className}">${lines
     .map(
       (line, index) =>
@@ -131,100 +155,148 @@ function textLines(lines, x, y, className, lineHeight = 22) {
     .join("")}</text>`;
 }
 
-function repositoryBubble(repository, index, y) {
-  const description = wrapText(repository.description);
-  const language = repository.primaryLanguage?.name || "Repository";
-  const stars = repository.stargazerCount ? ` · ★ ${repository.stargazerCount}` : "";
-  const delay = (1.65 + index * 0.2).toFixed(2);
-  return `<g class="message incoming" style="animation-delay:${delay}s">
-    <rect x="42" y="${y}" width="706" height="94" rx="24" class="bubble secondary"/>
-    ${textLines([repository.nameWithOwner], 66, y + 29, "repo-title", 20)}
-    ${textLines(description, 66, y + 54, "repo-description", 19)}
-    <text x="722" y="${y + 29}" text-anchor="end" class="repo-meta">${escapeXml(language + stars)}</text>
+function tail(side, x, y, width, height, tone) {
+  const bottom = y + height;
+  if (side === "incoming") {
+    return `<path d="M ${x + 20} ${bottom - 16} L ${x + 17} ${bottom - 4} C ${x + 12} ${bottom + 2}, ${x + 4} ${bottom + 5}, ${x - 5} ${bottom + 6} C ${x + 4} ${bottom + 2}, ${x + 8} ${bottom - 4}, ${x + 10} ${bottom - 13} Z" class="${tone}"/>`;
+  }
+  const right = x + width;
+  return `<path d="M ${right - 20} ${bottom - 16} L ${right - 17} ${bottom - 4} C ${right - 12} ${bottom + 2}, ${right - 4} ${bottom + 5}, ${right + 5} ${bottom + 6} C ${right - 4} ${bottom + 2}, ${right - 8} ${bottom - 4}, ${right - 10} ${bottom - 13} Z" class="${tone}"/>`;
+}
+
+function messageBubble({ side, y, width, height, lines, delay, secondary = false }) {
+  const x = side === "incoming" ? 8 : WIDTH - width - 8;
+  const tone = side === "incoming" ? "incoming-fill" : "outgoing-fill";
+  const textClass = secondary ? "message-secondary" : "message-text";
+  const textY = y + (height - (lines.length - 1) * 34) / 2 + 9;
+  return `<g class="message ${side}" style="animation-delay:${delay}s">
+    ${tail(side, x, y, width, height, tone)}
+    <rect x="${x}" y="${y}" width="${width}" height="${height}" rx="31" class="${tone}"/>
+    ${textLines(lines, x + 25, textY, textClass)}
   </g>`;
 }
 
-function renderSvg({ repositories, weather, now = new Date(), preview = false }) {
-  const projectsStart = 468;
-  const projectGap = 108;
-  const height = projectsStart + repositories.length * projectGap + 88;
-  const weatherLine = preview
-    ? "Seoul · Weather API awaiting setup"
-    : `Seoul · ${weather.emoji} ${weather.temperature}°C · ${weather.description}`;
-  const feelsLike = preview
-    ? "Add OPENWEATHER_API_KEY to enable live weather"
-    : `Feels like ${weather.feelsLike}°C · ${seoulDate(now)}`;
-  const projectBubbles = repositories
-    .map((repository, index) =>
-      repositoryBubble(repository, index, projectsStart + index * projectGap),
-    )
-    .join("\n");
+function repositoryBubble(repository, index, y, isLast) {
+  const width = 740;
+  const x = WIDTH - width - 8;
+  const descriptions = wrapText(repository.description);
+  const height = descriptions.length > 1 ? 112 : 92;
+  const language = repository.primaryLanguage?.name || "Repository";
+  const stars = repository.stargazerCount ? ` · ★ ${repository.stargazerCount}` : "";
+  const delay = (1.9 + index * 0.22).toFixed(2);
+  return {
+    height,
+    svg: `<g class="message outgoing" style="animation-delay:${delay}s">
+      ${isLast ? `${tail("outgoing", x, y, width, height, "outgoing-fill")}\n      ` : ""}<rect x="${x}" y="${y}" width="${width}" height="${height}" rx="27" class="outgoing-fill"/>
+      <text x="${x + 23}" y="${y + 31}" class="repo-title">${escapeXml(repository.nameWithOwner)}</text>
+      ${textLines(descriptions, x + 23, y + 58, "repo-description", 23)}
+      <text x="${x + width - 22}" y="${y + height - 13}" text-anchor="end" class="repo-meta">${escapeXml(language + stars)}</text>
+    </g>`,
+  };
+}
 
+function renderSvg({ repositories, weather, now = new Date() }) {
+  const messages = [];
+  let y = 24;
+
+  messages.push(
+    messageBubble({
+      side: "incoming",
+      y,
+      width: 335,
+      height: 58,
+      lines: ["Hey, I’m Aiden 👋"],
+      delay: ".12",
+    }),
+  );
+  y += 84;
+  messages.push(
+    messageBubble({
+      side: "outgoing",
+      y,
+      width: 700,
+      height: 88,
+      lines: ["I build AI-native systems that turn", "information into useful work."],
+      delay: ".5",
+    }),
+  );
+  y += 118;
+  messages.push(
+    messageBubble({
+      side: "incoming",
+      y,
+      width: 370,
+      height: 58,
+      lines: ["How’s Seoul today?"],
+      delay: ".88",
+    }),
+  );
+  y += 84;
+  messages.push(
+    messageBubble({
+      side: "outgoing",
+      y,
+      width: 670,
+      height: 116,
+      lines: [
+        `${weather.emoji} ${weather.temperature}°C · ${weather.description}`,
+        `Humidity ${weather.humidity}% · Wind ${weather.windSpeed} m/s`,
+        seoulDate(now),
+      ],
+      delay: "1.26",
+    }),
+  );
+  y += 146;
+  messages.push(
+    messageBubble({
+      side: "incoming",
+      y,
+      width: 450,
+      height: 58,
+      lines: ["What are you building now?"],
+      delay: "1.64",
+    }),
+  );
+  y += 84;
+
+  for (const [index, repository] of repositories.entries()) {
+    const bubble = repositoryBubble(repository, index, y, index === repositories.length - 1);
+    messages.push(bubble.svg);
+    y += bubble.height + 8;
+  }
+
+  const height = y + 48;
   return `<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="900" height="${height}" viewBox="0 0 900 ${height}" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="${WIDTH}" height="${height}" viewBox="0 0 ${WIDTH} ${height}" role="img" aria-labelledby="title desc">
   <title id="title">Aiden's live GitHub profile conversation</title>
-  <desc id="desc">An iMessage-style profile showing Seoul weather, today's date, and repositories pinned by seungwonme.</desc>
+  <desc id="desc">A dark iMessage-style conversation showing a Seoul forecast, today's date, and repositories pinned by seungwonme.</desc>
+  <defs>
+    <linearGradient id="imessage-blue" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="${height}">
+      <stop offset="0" stop-color="#2597ff"/>
+      <stop offset="1" stop-color="#0091ff"/>
+    </linearGradient>
+  </defs>
   <style>
-    :root { color-scheme: light dark; }
-    .canvas { fill: #f5f5f7; }
-    .panel { fill: #ffffff; stroke: #d2d2d7; }
-    .header { fill: #f8f8fa; }
-    .divider { stroke: #d9d9de; }
-    .title { fill: #161617; font: 700 19px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-    .status { fill: #6e6e73; font: 500 12px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-    .bubble.primary { fill: #0a84ff; }
-    .bubble.secondary { fill: #e9e9eb; }
-    .body-light { fill: #ffffff; font: 500 18px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-    .body-dark { fill: #161617; font: 500 18px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-    .subtle-light { fill: #dcecff; font: 500 14px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-    .subtle-dark { fill: #66666b; font: 500 14px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-    .repo-title { fill: #161617; font: 700 15px ui-monospace, SFMono-Regular, Menlo, monospace; }
-    .repo-description { fill: #4b4b50; font: 500 13px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-    .repo-meta { fill: #6e6e73; font: 600 11px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-    .credit { fill: #77777c; font: 500 11px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-    .message { animation: message-in .42s cubic-bezier(.2,.8,.2,1) backwards; }
-    @keyframes message-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    @media (prefers-color-scheme: dark) {
-      .canvas { fill: #0d1117; }
-      .panel { fill: #161b22; stroke: #30363d; }
-      .header { fill: #1c2128; }
-      .divider { stroke: #30363d; }
-      .title, .body-dark, .repo-title { fill: #f0f6fc; }
-      .status, .subtle-dark, .repo-meta, .credit { fill: #8b949e; }
-      .bubble.secondary { fill: #30363d; }
-      .repo-description { fill: #c9d1d9; }
+    .canvas { fill: #1e1e1e; }
+    .incoming-fill { fill: #3b3b3d; }
+    .outgoing-fill { fill: url(#imessage-blue); }
+    .message-text { fill: #ffffff; font: 400 27px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Apple SD Gothic Neo", "Segoe UI", sans-serif; letter-spacing: -.3px; }
+    .message-secondary { fill: #e1e1e1; font: 400 27px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Apple SD Gothic Neo", "Segoe UI", sans-serif; }
+    .repo-title { fill: #ffffff; font: 650 22px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Apple SD Gothic Neo", "Segoe UI", sans-serif; letter-spacing: -.2px; }
+    .repo-description { fill: #ffffff; font: 400 17px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Apple SD Gothic Neo", "Segoe UI", sans-serif; }
+    .repo-meta { fill: #d7edff; font: 600 13px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Apple SD Gothic Neo", "Segoe UI", sans-serif; }
+    .receipt { fill: #9a9a9a; font: 600 16px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Apple SD Gothic Neo", "Segoe UI", sans-serif; }
+    .message { opacity: 1; }
+    @media (prefers-reduced-motion: no-preference) and (update: fast) {
+      .message { transform-box: fill-box; animation: message-in .26s cubic-bezier(.2,.8,.2,1) backwards; }
+      .message.incoming { transform-origin: left bottom; }
+      .message.outgoing { transform-origin: right bottom; }
+      @keyframes message-in { from { opacity: 0; transform: translateY(4px) scale(.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
     }
-    @media (prefers-reduced-motion: reduce) { .message { animation: none; } }
   </style>
-  <rect width="900" height="${height}" rx="28" class="canvas"/>
-  <rect x="18" y="18" width="864" height="${height - 36}" rx="24" class="panel"/>
-  <path d="M42 18h816a24 24 0 0 1 24 24v62H18V42a24 24 0 0 1 24-24Z" class="header"/>
-  <line x1="18" y1="104" x2="882" y2="104" class="divider"/>
-  <circle cx="450" cy="55" r="23" fill="#0a84ff"/>
-  <text x="450" y="62" text-anchor="middle" class="body-light">A</text>
-  <text x="450" y="91" text-anchor="middle" class="title">Aiden</text>
-  <circle cx="476" cy="91" r="4" fill="#30d158"/>
-
-  <g class="message incoming" style="animation-delay:.15s">
-    <rect x="42" y="132" width="292" height="58" rx="24" class="bubble secondary"/>
-    <text x="66" y="168" class="body-dark">Hey, I’m Aiden 👋</text>
-  </g>
-  <g class="message outgoing" style="animation-delay:.55s">
-    <rect x="226" y="204" width="632" height="78" rx="24" class="bubble primary"/>
-    ${textLines(["I build AI-native systems that turn", "information into useful work."], 250, 236, "body-light", 24)}
-  </g>
-  <g class="message incoming" style="animation-delay:.95s">
-    <rect x="42" y="296" width="548" height="78" rx="24" class="bubble secondary"/>
-    <text x="66" y="328" class="body-dark">${escapeXml(weatherLine)}</text>
-    <text x="66" y="353" class="subtle-dark">${escapeXml(feelsLike)}</text>
-  </g>
-  <g class="message outgoing" style="animation-delay:1.35s">
-    <rect x="410" y="390" width="448" height="58" rx="24" class="bubble primary"/>
-    <text x="434" y="426" class="body-light">Here’s what I’m building right now ↓</text>
-  </g>
-
-  ${projectBubbles}
-  <text x="450" y="${height - 42}" text-anchor="middle" class="credit">Updated by Node.js + GitHub GraphQL + OpenWeather · Weather data provided by OpenWeather</text>
+  <rect width="${WIDTH}" height="${height}" class="canvas"/>
+  ${messages.join("\n  ")}
+  <text x="970" y="${height - 20}" text-anchor="end" class="receipt">Read: ${escapeXml(seoulWeekday(now))}</text>
 </svg>
 `;
 }
@@ -239,33 +311,73 @@ async function writeAtomically(path, contents) {
 function selfTest() {
   assert.equal(escapeXml('<Aiden & "friends">'), "&lt;Aiden &amp; &quot;friends&quot;&gt;");
   assert.deepEqual(wrapText("one two three four", 7, 2), ["one two", "three…"]);
-  assert.equal(weatherEmoji(800, "01d"), "☀️");
-  assert.equal(weatherEmoji(800, "01n"), "🌙");
-  assert.match(
-    renderSvg({
-      repositories: [
-        {
-          nameWithOwner: "seungwonme/test",
-          description: "A test repository",
-          stargazerCount: 1,
-          primaryLanguage: { name: "JavaScript" },
-        },
-      ],
-      weather: { temperature: 24, feelsLike: 25, description: "clear sky", emoji: "☀️" },
-      now: new Date("2026-07-15T00:00:00Z"),
+  assert.deepEqual(weatherDetails("clearsky_day"), {
+    emoji: "☀",
+    description: "clear sky",
+  });
+  assert.deepEqual(weatherDetails("heavyrainandthunder"), {
+    emoji: "⛈",
+    description: "thunderstorm",
+  });
+  assert.deepEqual(
+    parseWeather({
+      properties: {
+        timeseries: [
+          {
+            data: {
+              instant: {
+                details: {
+                  air_temperature: 23.6,
+                  relative_humidity: 68.4,
+                  wind_speed: 2.6,
+                },
+              },
+              next_1_hours: { summary: { symbol_code: "partlycloudy_day" } },
+            },
+          },
+        ],
+      },
     }),
-    /seungwonme\/test/,
+    {
+      temperature: 24,
+      humidity: 68,
+      windSpeed: 3,
+      emoji: "⛅",
+      description: "partly cloudy",
+    },
   );
+  assert.throws(() => parseWeather({}), /unexpected response/);
+  const svg = renderSvg({
+    repositories: [
+      {
+        nameWithOwner: "seungwonme/test",
+        description: "A test repository",
+        stargazerCount: 1,
+        primaryLanguage: { name: "JavaScript" },
+      },
+    ],
+    weather: {
+      temperature: 24,
+      humidity: 68,
+      windSpeed: 3,
+      description: "clear sky",
+      emoji: "☀",
+    },
+    now: new Date("2026-07-16T00:00:00Z"),
+  });
+  assert.match(svg, /seungwonme\/test/);
+  assert.match(svg, /Read: Thursday/);
   console.log("Self-test passed.");
 }
 
 async function main() {
   if (process.argv.includes("--self-test")) return selfTest();
 
-  const preview = process.argv.includes("--preview");
-  const repositories = await fetchPinnedRepositories(process.env.GH_TOKEN);
-  const weather = preview ? null : await fetchWeather(process.env.OPENWEATHER_API_KEY);
-  const svg = renderSvg({ repositories, weather, preview });
+  const [repositories, weather] = await Promise.all([
+    fetchPinnedRepositories(process.env.GH_TOKEN),
+    fetchWeather(),
+  ]);
+  const svg = renderSvg({ repositories, weather });
   await writeAtomically(OUTPUT_PATH, svg);
   console.log(`Updated ${OUTPUT_PATH} with ${repositories.length} pinned repositories.`);
 }
