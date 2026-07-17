@@ -22,7 +22,7 @@
     .typing-dot { fill: #9a9a9a; }
     .message { opacity: 1; }
     @media (prefers-reduced-motion: no-preference) and (update: fast) {
-      .typing { transform-box: fill-box; transform-origin: left bottom; animation: typing-in .38s ease both; }
+      .typing { transform-box: fill-box; transform-origin: left bottom; animation: typing-in 1s ease both; }
       .message { transform-box: fill-box; animation: message-in .26s cubic-bezier(.2,.8,.2,1) backwards; }
       .message.incoming { transform-origin: left bottom; }
       .message.outgoing { transform-origin: right bottom; }
@@ -36,7 +36,7 @@
     <rect x="412" y="16" width="220" height="48" rx="24" class="outgoing-fill"/>
     <text x="434" y="48" class="message-text"><tspan x="434" dy="0">Hey, I’m Aiden 👋</tspan></text>
   </g>
-  <g class="typing incoming" style="animation-delay:.12s">
+  <g class="typing incoming" style="animation-delay:.38s">
     <path d="M 28 104 L 25 116 C 20 122, 12 125, 3 126 C 12 122, 16 116, 18 107 Z" class="incoming-fill"/>
     <rect x="8" y="78" width="62" height="42" rx="21" class="incoming-fill"/>
     <circle cx="28" cy="99" r="4" class="typing-dot">
@@ -49,17 +49,17 @@
       <animate attributeName="opacity" values=".35;1;.35" dur=".75s" begin="0.3s" repeatCount="indefinite"/>
     </circle>
   </g>
-  <g class="message incoming" style="animation-delay:.5s">
+  <g class="message incoming" style="animation-delay:1.38s">
     <path d="M 28 110 L 25 122 C 20 128, 12 131, 3 132 C 12 128, 16 122, 18 113 Z" class="incoming-fill"/>
     <rect x="8" y="78" width="200" height="48" rx="24" class="incoming-fill"/>
     <text x="30" y="110" class="message-text"><tspan x="30" dy="0">What do you do?</tspan></text>
   </g>
-  <g class="message outgoing" style="animation-delay:.88s">
+  <g class="message outgoing" style="animation-delay:1.76s">
     <path d="M 612 172 L 615 184 C 620 190, 628 193, 637 194 C 628 190, 624 184, 622 175 Z" class="outgoing-fill"/>
     <rect x="302" y="140" width="330" height="48" rx="24" class="outgoing-fill"/>
     <text x="324" y="172" class="message-text"><tspan x="324" dy="0">I focus on working AI-native.</tspan></text>
   </g>
-  <g class="typing incoming" style="animation-delay:.88s">
+  <g class="typing incoming" style="animation-delay:2.02s">
     <path d="M 28 228 L 25 240 C 20 246, 12 249, 3 250 C 12 246, 16 240, 18 231 Z" class="incoming-fill"/>
     <rect x="8" y="202" width="62" height="42" rx="21" class="incoming-fill"/>
     <circle cx="28" cy="223" r="4" class="typing-dot">
@@ -72,30 +72,30 @@
       <animate attributeName="opacity" values=".35;1;.35" dur=".75s" begin="0.3s" repeatCount="indefinite"/>
     </circle>
   </g>
-  <g class="message incoming" style="animation-delay:1.26s">
+  <g class="message incoming" style="animation-delay:3.02s">
     <path d="M 28 234 L 25 246 C 20 252, 12 255, 3 256 C 12 252, 16 246, 18 237 Z" class="incoming-fill"/>
     <rect x="8" y="202" width="320" height="48" rx="24" class="incoming-fill"/>
     <text x="30" y="234" class="message-text"><tspan x="30" dy="0">What are you building now?</tspan></text>
   </g>
-  <g class="message outgoing" style="animation-delay:1.90s">
+  <g class="message outgoing" style="animation-delay:3.40s">
       <rect x="82" y="264" width="550" height="60" rx="22" class="outgoing-fill"/>
       <text x="102" y="287" class="repo-title">seungwonme/skim</text>
       <text x="614" y="286" text-anchor="end" class="repo-meta">Python</text>
       <text x="102" y="311" class="repo-description"><tspan x="102" dy="0">Local-first information curation pipeline for feeds…</tspan></text>
     </g>
-  <g class="message outgoing" style="animation-delay:2.12s">
+  <g class="message outgoing" style="animation-delay:3.62s">
       <rect x="82" y="330" width="550" height="60" rx="22" class="outgoing-fill"/>
       <text x="102" y="353" class="repo-title">ai-native-engineer/linkedin-cli</text>
       <text x="614" y="352" text-anchor="end" class="repo-meta">Python</text>
       <text x="102" y="377" class="repo-description"><tspan x="102" dy="0">Terminal-first LinkedIn CLI: unofficial…</tspan></text>
     </g>
-  <g class="message outgoing" style="animation-delay:2.34s">
+  <g class="message outgoing" style="animation-delay:3.84s">
       <rect x="82" y="396" width="550" height="60" rx="22" class="outgoing-fill"/>
       <text x="102" y="419" class="repo-title">ai-native-engineer/astack</text>
       <text x="614" y="418" text-anchor="end" class="repo-meta">Python · ★ 1</text>
       <text x="102" y="443" class="repo-description"><tspan x="102" dy="0">Aiden&apos;s Stack — curated Claude Code skills…</tspan></text>
     </g>
-  <g class="message outgoing" style="animation-delay:2.56s">
+  <g class="message outgoing" style="animation-delay:4.06s">
       <path d="M 612 506 L 615 518 C 620 524, 628 527, 637 528 C 628 524, 624 518, 622 509 Z" class="outgoing-fill"/>
       <rect x="82" y="462" width="550" height="60" rx="22" class="outgoing-fill"/>
       <text x="102" y="485" class="repo-title">seungwonme/ai-podcast</text>

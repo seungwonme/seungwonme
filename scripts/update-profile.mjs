@@ -134,7 +134,7 @@ function repositoryBubble(repository, index, y, isLast) {
   const height = 60;
   const language = repository.primaryLanguage?.name || "Repository";
   const stars = repository.stargazerCount ? ` · ★ ${repository.stargazerCount}` : "";
-  const delay = (1.9 + index * 0.22).toFixed(2);
+  const delay = (3.4 + index * 0.22).toFixed(2);
   return {
     height,
     svg: `<g class="message outgoing" style="animation-delay:${delay}s">
@@ -160,14 +160,14 @@ function renderSvg({ repositories, now = new Date() }) {
     }),
   );
   y += 62;
-  messages.push(typingBubble(y, ".12"));
+  messages.push(typingBubble(y, ".38"));
   messages.push(
     messageBubble({
       side: "incoming",
       y,
       width: 200,
       lines: ["What do you do?"],
-      delay: ".5",
+      delay: "1.38",
     }),
   );
   y += 62;
@@ -177,18 +177,18 @@ function renderSvg({ repositories, now = new Date() }) {
       y,
       width: 330,
       lines: ["I focus on working AI-native."],
-      delay: ".88",
+      delay: "1.76",
     }),
   );
   y += 62;
-  messages.push(typingBubble(y, ".88"));
+  messages.push(typingBubble(y, "2.02"));
   messages.push(
     messageBubble({
       side: "incoming",
       y,
       width: 320,
       lines: ["What are you building now?"],
-      delay: "1.26",
+      delay: "3.02",
     }),
   );
   y += 62;
@@ -224,7 +224,7 @@ function renderSvg({ repositories, now = new Date() }) {
     .typing-dot { fill: #9a9a9a; }
     .message { opacity: 1; }
     @media (prefers-reduced-motion: no-preference) and (update: fast) {
-      .typing { transform-box: fill-box; transform-origin: left bottom; animation: typing-in .38s ease both; }
+      .typing { transform-box: fill-box; transform-origin: left bottom; animation: typing-in 1s ease both; }
       .message { transform-box: fill-box; animation: message-in .26s cubic-bezier(.2,.8,.2,1) backwards; }
       .message.incoming { transform-origin: left bottom; }
       .message.outgoing { transform-origin: right bottom; }
