@@ -110,6 +110,23 @@ function messageBubble({ side, y, width, lines, delay, secondary = false }) {
   </g>`;
 }
 
+function typingBubble(y, delay) {
+  const x = 8;
+  const width = 62;
+  const height = 42;
+  return `<g class="typing incoming" style="animation-delay:${delay}s">
+    ${tail("incoming", x, y, width, height, "incoming-fill")}
+    <rect x="${x}" y="${y}" width="${width}" height="${height}" rx="21" class="incoming-fill"/>
+    ${[0, 1, 2]
+      .map(
+        (index) => `<circle cx="${x + 20 + index * 11}" cy="${y + 21}" r="4" class="typing-dot">
+      <animate attributeName="opacity" values=".35;1;.35" dur=".75s" begin="${index * 0.15}s" repeatCount="indefinite"/>
+    </circle>`,
+      )
+      .join("\n    ")}
+  </g>`;
+}
+
 function repositoryBubble(repository, index, y, isLast) {
   const width = 550;
   const x = WIDTH - width - 8;
@@ -143,6 +160,7 @@ function renderSvg({ repositories, now = new Date() }) {
     }),
   );
   y += 62;
+  messages.push(typingBubble(y, ".12"));
   messages.push(
     messageBubble({
       side: "incoming",
@@ -163,6 +181,7 @@ function renderSvg({ repositories, now = new Date() }) {
     }),
   );
   y += 62;
+  messages.push(typingBubble(y, ".88"));
   messages.push(
     messageBubble({
       side: "incoming",
@@ -201,11 +220,15 @@ function renderSvg({ repositories, now = new Date() }) {
     .repo-description { fill: #ffffff; font: 400 16px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Apple SD Gothic Neo", "Segoe UI", sans-serif; }
     .repo-meta { fill: #d7edff; font: 600 11px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Apple SD Gothic Neo", "Segoe UI", sans-serif; }
     .receipt { fill: #9a9a9a; font: 600 13px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Apple SD Gothic Neo", "Segoe UI", sans-serif; }
+    .typing { opacity: 0; }
+    .typing-dot { fill: #9a9a9a; }
     .message { opacity: 1; }
     @media (prefers-reduced-motion: no-preference) and (update: fast) {
+      .typing { transform-box: fill-box; transform-origin: left bottom; animation: typing-in .38s ease both; }
       .message { transform-box: fill-box; animation: message-in .26s cubic-bezier(.2,.8,.2,1) backwards; }
       .message.incoming { transform-origin: left bottom; }
       .message.outgoing { transform-origin: right bottom; }
+      @keyframes typing-in { 0%, 100% { opacity: 0; transform: translateY(2px) scale(.97); } 15%, 85% { opacity: 1; transform: translateY(0) scale(1); } }
       @keyframes message-in { from { opacity: 0; transform: translateY(4px) scale(.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
     }
   </style>
@@ -240,6 +263,7 @@ function selfTest() {
   assert.match(svg, /seungwonme\/test/);
   assert.match(svg, /width="640"/);
   assert.match(svg, /What do you do\?/);
+  assert.match(svg, /class="typing incoming"/);
   assert.doesNotMatch(svg, /weather|forecast/i);
   assert.match(svg, /Read: Thursday/);
   console.log("Self-test passed.");

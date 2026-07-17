@@ -18,11 +18,15 @@
     .repo-description { fill: #ffffff; font: 400 16px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Apple SD Gothic Neo", "Segoe UI", sans-serif; }
     .repo-meta { fill: #d7edff; font: 600 11px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Apple SD Gothic Neo", "Segoe UI", sans-serif; }
     .receipt { fill: #9a9a9a; font: 600 13px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Apple SD Gothic Neo", "Segoe UI", sans-serif; }
+    .typing { opacity: 0; }
+    .typing-dot { fill: #9a9a9a; }
     .message { opacity: 1; }
     @media (prefers-reduced-motion: no-preference) and (update: fast) {
+      .typing { transform-box: fill-box; transform-origin: left bottom; animation: typing-in .38s ease both; }
       .message { transform-box: fill-box; animation: message-in .26s cubic-bezier(.2,.8,.2,1) backwards; }
       .message.incoming { transform-origin: left bottom; }
       .message.outgoing { transform-origin: right bottom; }
+      @keyframes typing-in { 0%, 100% { opacity: 0; transform: translateY(2px) scale(.97); } 15%, 85% { opacity: 1; transform: translateY(0) scale(1); } }
       @keyframes message-in { from { opacity: 0; transform: translateY(4px) scale(.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
     }
   </style>
@@ -31,6 +35,19 @@
     <path d="M 612 48 L 615 60 C 620 66, 628 69, 637 70 C 628 66, 624 60, 622 51 Z" class="outgoing-fill"/>
     <rect x="412" y="16" width="220" height="48" rx="24" class="outgoing-fill"/>
     <text x="434" y="48" class="message-text"><tspan x="434" dy="0">Hey, I’m Aiden 👋</tspan></text>
+  </g>
+  <g class="typing incoming" style="animation-delay:.12s">
+    <path d="M 28 104 L 25 116 C 20 122, 12 125, 3 126 C 12 122, 16 116, 18 107 Z" class="incoming-fill"/>
+    <rect x="8" y="78" width="62" height="42" rx="21" class="incoming-fill"/>
+    <circle cx="28" cy="99" r="4" class="typing-dot">
+      <animate attributeName="opacity" values=".35;1;.35" dur=".75s" begin="0s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="39" cy="99" r="4" class="typing-dot">
+      <animate attributeName="opacity" values=".35;1;.35" dur=".75s" begin="0.15s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="50" cy="99" r="4" class="typing-dot">
+      <animate attributeName="opacity" values=".35;1;.35" dur=".75s" begin="0.3s" repeatCount="indefinite"/>
+    </circle>
   </g>
   <g class="message incoming" style="animation-delay:.5s">
     <path d="M 28 110 L 25 122 C 20 128, 12 131, 3 132 C 12 128, 16 122, 18 113 Z" class="incoming-fill"/>
@@ -41,6 +58,19 @@
     <path d="M 612 172 L 615 184 C 620 190, 628 193, 637 194 C 628 190, 624 184, 622 175 Z" class="outgoing-fill"/>
     <rect x="302" y="140" width="330" height="48" rx="24" class="outgoing-fill"/>
     <text x="324" y="172" class="message-text"><tspan x="324" dy="0">I focus on working AI-native.</tspan></text>
+  </g>
+  <g class="typing incoming" style="animation-delay:.88s">
+    <path d="M 28 228 L 25 240 C 20 246, 12 249, 3 250 C 12 246, 16 240, 18 231 Z" class="incoming-fill"/>
+    <rect x="8" y="202" width="62" height="42" rx="21" class="incoming-fill"/>
+    <circle cx="28" cy="223" r="4" class="typing-dot">
+      <animate attributeName="opacity" values=".35;1;.35" dur=".75s" begin="0s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="39" cy="223" r="4" class="typing-dot">
+      <animate attributeName="opacity" values=".35;1;.35" dur=".75s" begin="0.15s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="50" cy="223" r="4" class="typing-dot">
+      <animate attributeName="opacity" values=".35;1;.35" dur=".75s" begin="0.3s" repeatCount="indefinite"/>
+    </circle>
   </g>
   <g class="message incoming" style="animation-delay:1.26s">
     <path d="M 28 234 L 25 246 C 20 252, 12 255, 3 256 C 12 252, 16 246, 18 237 Z" class="incoming-fill"/>
