@@ -11,7 +11,6 @@ const OUTPUT_PATH = resolve(
 );
 const WIDTH = 640;
 const MESSAGE_LINE_HEIGHT = 30;
-const SEOUL = { latitude: "37.5665", longitude: "126.9780" };
 
 const escapeXml = (value) =>
   String(value)
@@ -42,34 +41,6 @@ function wrapText(value, maxLength = 58, maxLines = 2) {
     lines[lines.length - 1] = `${lines.at(-1).replace(/[.,;:]?$/, "")}…`;
   }
   return lines.slice(0, maxLines);
-}
-
-function weatherDetails(symbolCode) {
-  const symbol = String(symbolCode).toLowerCase();
-  const isNight = symbol.endsWith("_night");
-  if (symbol.startsWith("clearsky")) {
-    return { emoji: isNight ? "🌙" : "☀", description: "clear sky" };
-  }
-  if (symbol.startsWith("fair")) {
-    return { emoji: isNight ? "🌙" : "🌤", description: "mainly clear" };
-  }
-  if (symbol.startsWith("partlycloudy")) return { emoji: "⛅", description: "partly cloudy" };
-  if (symbol.startsWith("cloudy")) return { emoji: "☁", description: "cloudy" };
-  if (symbol.includes("fog")) return { emoji: "🌫", description: "foggy" };
-  if (symbol.includes("thunder")) return { emoji: "⛈", description: "thunderstorm" };
-  if (symbol.includes("snow")) return { emoji: "❄", description: "snow" };
-  if (symbol.includes("sleet")) return { emoji: "🌨", description: "sleet" };
-  if (symbol.includes("rain")) return { emoji: "🌧", description: "rain" };
-  return { emoji: "🌡️", description: "changing weather" };
-}
-
-function seoulDate(now = new Date()) {
-  return new Intl.DateTimeFormat("en-US", {
-    timeZone: "Asia/Seoul",
-    weekday: "long",
-    month: "long",
-    day: "numeric",
-  }).format(now);
 }
 
 function seoulWeekday(now = new Date()) {
@@ -108,45 +79,6 @@ async function fetchPinnedRepositories(token) {
   return repositories;
 }
 
-async function fetchWeather() {
-  const url = new URL("https://api.met.no/weatherapi/locationforecast/2.0/compact");
-  url.search = new URLSearchParams({
-    lat: SEOUL.latitude,
-    lon: SEOUL.longitude,
-  });
-  const response = await fetch(url, {
-    headers: {
-      Accept: "application/json",
-      "User-Agent": "seungwonme-profile/1.0 github.com/seungwonme",
-    },
-    signal: AbortSignal.timeout(10_000),
-  });
-  if (!response.ok) throw new Error(`MET Norway returned HTTP ${response.status}.`);
-  return parseWeather(await response.json());
-}
-
-function parseWeather(data) {
-  const forecast = data.properties?.timeseries?.[0]?.data;
-  const instant = forecast?.instant?.details;
-  const symbolCode =
-    forecast?.next_1_hours?.summary?.symbol_code ||
-    forecast?.next_6_hours?.summary?.symbol_code;
-  if (
-    typeof instant?.air_temperature !== "number" ||
-    typeof instant?.relative_humidity !== "number" ||
-    typeof instant?.wind_speed !== "number" ||
-    typeof symbolCode !== "string"
-  ) {
-    throw new Error("MET Norway returned an unexpected response.");
-  }
-  return {
-    temperature: Math.round(instant.air_temperature),
-    humidity: Math.round(instant.relative_humidity),
-    windSpeed: Math.round(instant.wind_speed),
-    ...weatherDetails(symbolCode),
-  };
-}
-
 function textLines(lines, x, y, className, lineHeight = 34) {
   return `<text x="${x}" y="${y}" class="${className}">${lines
     .map(
@@ -165,7 +97,8 @@ function tail(side, x, y, width, height, tone) {
   return `<path d="M ${right - 20} ${bottom - 16} L ${right - 17} ${bottom - 4} C ${right - 12} ${bottom + 2}, ${right - 4} ${bottom + 5}, ${right + 5} ${bottom + 6} C ${right - 4} ${bottom + 2}, ${right - 8} ${bottom - 4}, ${right - 10} ${bottom - 13} Z" class="${tone}"/>`;
 }
 
-function messageBubble({ side, y, width, height, lines, delay, secondary = false }) {
+function messageBubble({ side, y, width, lines, delay, secondary = false }) {
+  const height = 48 + (lines.length - 1) * MESSAGE_LINE_HEIGHT;
   const x = side === "incoming" ? 8 : WIDTH - width - 8;
   const tone = side === "incoming" ? "incoming-fill" : "outgoing-fill";
   const textClass = secondary ? "message-secondary" : "message-text";
@@ -196,16 +129,15 @@ function repositoryBubble(repository, index, y, isLast) {
   };
 }
 
-function renderSvg({ repositories, weather, now = new Date() }) {
+function renderSvg({ repositories, now = new Date() }) {
   const messages = [];
   let y = 16;
 
   messages.push(
     messageBubble({
-      side: "incoming",
+      side: "outgoing",
       y,
-      width: 250,
-      height: 48,
+      width: 220,
       lines: ["Hey, I’m Aiden 👋"],
       delay: ".12",
     }),
@@ -213,23 +145,11 @@ function renderSvg({ repositories, weather, now = new Date() }) {
   y += 62;
   messages.push(
     messageBubble({
-      side: "outgoing",
-      y,
-      width: 550,
-      height: 70,
-      lines: ["I build AI-native systems that turn", "information into useful work."],
-      delay: ".5",
-    }),
-  );
-  y += 84;
-  messages.push(
-    messageBubble({
       side: "incoming",
       y,
-      width: 300,
-      height: 48,
-      lines: ["How’s Seoul today?"],
-      delay: ".88",
+      width: 200,
+      lines: ["What do you do?"],
+      delay: ".5",
     }),
   );
   y += 62;
@@ -237,25 +157,19 @@ function renderSvg({ repositories, weather, now = new Date() }) {
     messageBubble({
       side: "outgoing",
       y,
-      width: 520,
-      height: 88,
-      lines: [
-        `${weather.emoji} ${weather.temperature}°C · ${weather.description}`,
-        `Humidity ${weather.humidity}% · Wind ${weather.windSpeed} m/s`,
-        seoulDate(now),
-      ],
-      delay: "1.26",
+      width: 330,
+      lines: ["I focus on working AI-native."],
+      delay: ".88",
     }),
   );
-  y += 102;
+  y += 62;
   messages.push(
     messageBubble({
       side: "incoming",
       y,
-      width: 360,
-      height: 48,
+      width: 320,
       lines: ["What are you building now?"],
-      delay: "1.64",
+      delay: "1.26",
     }),
   );
   y += 62;
@@ -270,7 +184,7 @@ function renderSvg({ repositories, weather, now = new Date() }) {
   return `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="${WIDTH}" height="${height}" viewBox="0 0 ${WIDTH} ${height}" role="img" aria-labelledby="title desc">
   <title id="title">Aiden's GitHub profile conversation</title>
-  <desc id="desc">A compact iMessage-style conversation showing a Seoul forecast, today's date, and repositories pinned by seungwonme.</desc>
+  <desc id="desc">A compact iMessage-style introduction and repositories pinned by seungwonme.</desc>
   <defs>
     <linearGradient id="imessage-blue" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="${height}">
       <stop offset="0" stop-color="#2597ff"/>
@@ -312,42 +226,6 @@ async function writeAtomically(path, contents) {
 function selfTest() {
   assert.equal(escapeXml('<Aiden & "friends">'), "&lt;Aiden &amp; &quot;friends&quot;&gt;");
   assert.deepEqual(wrapText("one two three four", 7, 2), ["one two", "three…"]);
-  assert.deepEqual(weatherDetails("clearsky_day"), {
-    emoji: "☀",
-    description: "clear sky",
-  });
-  assert.deepEqual(weatherDetails("heavyrainandthunder"), {
-    emoji: "⛈",
-    description: "thunderstorm",
-  });
-  assert.deepEqual(
-    parseWeather({
-      properties: {
-        timeseries: [
-          {
-            data: {
-              instant: {
-                details: {
-                  air_temperature: 23.6,
-                  relative_humidity: 68.4,
-                  wind_speed: 2.6,
-                },
-              },
-              next_1_hours: { summary: { symbol_code: "partlycloudy_day" } },
-            },
-          },
-        ],
-      },
-    }),
-    {
-      temperature: 24,
-      humidity: 68,
-      windSpeed: 3,
-      emoji: "⛅",
-      description: "partly cloudy",
-    },
-  );
-  assert.throws(() => parseWeather({}), /unexpected response/);
   const svg = renderSvg({
     repositories: [
       {
@@ -357,17 +235,12 @@ function selfTest() {
         primaryLanguage: { name: "JavaScript" },
       },
     ],
-    weather: {
-      temperature: 24,
-      humidity: 68,
-      windSpeed: 3,
-      description: "clear sky",
-      emoji: "☀",
-    },
     now: new Date("2026-07-16T00:00:00Z"),
   });
   assert.match(svg, /seungwonme\/test/);
   assert.match(svg, /width="640"/);
+  assert.match(svg, /What do you do\?/);
+  assert.doesNotMatch(svg, /weather|forecast/i);
   assert.match(svg, /Read: Thursday/);
   console.log("Self-test passed.");
 }
@@ -375,11 +248,8 @@ function selfTest() {
 async function main() {
   if (process.argv.includes("--self-test")) return selfTest();
 
-  const [repositories, weather] = await Promise.all([
-    fetchPinnedRepositories(process.env.GH_TOKEN),
-    fetchWeather(),
-  ]);
-  const svg = renderSvg({ repositories, weather });
+  const repositories = await fetchPinnedRepositories(process.env.GH_TOKEN);
+  const svg = renderSvg({ repositories });
   await writeAtomically(OUTPUT_PATH, svg);
   console.log(`Updated ${OUTPUT_PATH} with ${repositories.length} pinned repositories.`);
 }
