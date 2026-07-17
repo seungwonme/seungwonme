@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1048" viewBox="0 0 1000 1048" role="img" aria-labelledby="title desc">
-  <title id="title">Aiden's live GitHub profile conversation</title>
-  <desc id="desc">A dark iMessage-style conversation showing a Seoul forecast, today's date, and repositories pinned by seungwonme.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="678" viewBox="0 0 640 678" role="img" aria-labelledby="title desc">
+  <title id="title">Aiden's GitHub profile conversation</title>
+  <desc id="desc">A compact iMessage-style conversation showing a Seoul forecast, today's date, and repositories pinned by seungwonme.</desc>
   <defs>
-    <linearGradient id="imessage-blue" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="1048">
+    <linearGradient id="imessage-blue" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="678">
       <stop offset="0" stop-color="#2597ff"/>
       <stop offset="1" stop-color="#0091ff"/>
     </linearGradient>
@@ -12,12 +12,12 @@
     .canvas { fill: #1e1e1e; }
     .incoming-fill { fill: #3b3b3d; }
     .outgoing-fill { fill: url(#imessage-blue); }
-    .message-text { fill: #ffffff; font: 400 27px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Apple SD Gothic Neo", "Segoe UI", sans-serif; letter-spacing: -.3px; }
-    .message-secondary { fill: #e1e1e1; font: 400 27px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Apple SD Gothic Neo", "Segoe UI", sans-serif; }
-    .repo-title { fill: #ffffff; font: 650 22px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Apple SD Gothic Neo", "Segoe UI", sans-serif; letter-spacing: -.2px; }
-    .repo-description { fill: #ffffff; font: 400 17px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Apple SD Gothic Neo", "Segoe UI", sans-serif; }
-    .repo-meta { fill: #d7edff; font: 600 13px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Apple SD Gothic Neo", "Segoe UI", sans-serif; }
-    .receipt { fill: #9a9a9a; font: 600 16px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Apple SD Gothic Neo", "Segoe UI", sans-serif; }
+    .message-text { fill: #ffffff; font: 400 24px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Apple SD Gothic Neo", "Segoe UI", sans-serif; letter-spacing: -.3px; }
+    .message-secondary { fill: #e1e1e1; font: 400 24px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Apple SD Gothic Neo", "Segoe UI", sans-serif; }
+    .repo-title { fill: #ffffff; font: 650 21px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Apple SD Gothic Neo", "Segoe UI", sans-serif; letter-spacing: -.2px; }
+    .repo-description { fill: #ffffff; font: 400 16px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Apple SD Gothic Neo", "Segoe UI", sans-serif; }
+    .repo-meta { fill: #d7edff; font: 600 11px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Apple SD Gothic Neo", "Segoe UI", sans-serif; }
+    .receipt { fill: #9a9a9a; font: 600 13px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Apple SD Gothic Neo", "Segoe UI", sans-serif; }
     .message { opacity: 1; }
     @media (prefers-reduced-motion: no-preference) and (update: fast) {
       .message { transform-box: fill-box; animation: message-in .26s cubic-bezier(.2,.8,.2,1) backwards; }
@@ -26,56 +26,56 @@
       @keyframes message-in { from { opacity: 0; transform: translateY(4px) scale(.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
     }
   </style>
-  <rect width="1000" height="1048" class="canvas"/>
+  <rect width="640" height="678" class="canvas"/>
   <g class="message incoming" style="animation-delay:.12s">
-    <path d="M 28 66 L 25 78 C 20 84, 12 87, 3 88 C 12 84, 16 78, 18 69 Z" class="incoming-fill"/>
-    <rect x="8" y="24" width="335" height="58" rx="31" class="incoming-fill"/>
-    <text x="33" y="62" class="message-text"><tspan x="33" dy="0">Hey, I’m Aiden 👋</tspan></text>
+    <path d="M 28 48 L 25 60 C 20 66, 12 69, 3 70 C 12 66, 16 60, 18 51 Z" class="incoming-fill"/>
+    <rect x="8" y="16" width="250" height="48" rx="24" class="incoming-fill"/>
+    <text x="30" y="48" class="message-text"><tspan x="30" dy="0">Hey, I’m Aiden 👋</tspan></text>
   </g>
   <g class="message outgoing" style="animation-delay:.5s">
-    <path d="M 972 180 L 975 192 C 980 198, 988 201, 997 202 C 988 198, 984 192, 982 183 Z" class="outgoing-fill"/>
-    <rect x="292" y="108" width="700" height="88" rx="31" class="outgoing-fill"/>
-    <text x="317" y="144" class="message-text"><tspan x="317" dy="0">I build AI-native systems that turn</tspan><tspan x="317" dy="34">information into useful work.</tspan></text>
+    <path d="M 612 132 L 615 144 C 620 150, 628 153, 637 154 C 628 150, 624 144, 622 135 Z" class="outgoing-fill"/>
+    <rect x="82" y="78" width="550" height="70" rx="24" class="outgoing-fill"/>
+    <text x="104" y="106" class="message-text"><tspan x="104" dy="0">I build AI-native systems that turn</tspan><tspan x="104" dy="30">information into useful work.</tspan></text>
   </g>
   <g class="message incoming" style="animation-delay:.88s">
-    <path d="M 28 268 L 25 280 C 20 286, 12 289, 3 290 C 12 286, 16 280, 18 271 Z" class="incoming-fill"/>
-    <rect x="8" y="226" width="370" height="58" rx="31" class="incoming-fill"/>
-    <text x="33" y="264" class="message-text"><tspan x="33" dy="0">How’s Seoul today?</tspan></text>
+    <path d="M 28 194 L 25 206 C 20 212, 12 215, 3 216 C 12 212, 16 206, 18 197 Z" class="incoming-fill"/>
+    <rect x="8" y="162" width="300" height="48" rx="24" class="incoming-fill"/>
+    <text x="30" y="194" class="message-text"><tspan x="30" dy="0">How’s Seoul today?</tspan></text>
   </g>
   <g class="message outgoing" style="animation-delay:1.26s">
-    <path d="M 972 410 L 975 422 C 980 428, 988 431, 997 432 C 988 428, 984 422, 982 413 Z" class="outgoing-fill"/>
-    <rect x="322" y="310" width="670" height="116" rx="31" class="outgoing-fill"/>
-    <text x="347" y="343" class="message-text"><tspan x="347" dy="0">☁ 29°C · cloudy</tspan><tspan x="347" dy="34">Humidity 68% · Wind 2 m/s</tspan><tspan x="347" dy="34">Friday, July 17</tspan></text>
+    <path d="M 612 296 L 615 308 C 620 314, 628 317, 637 318 C 628 314, 624 308, 622 299 Z" class="outgoing-fill"/>
+    <rect x="112" y="224" width="520" height="88" rx="24" class="outgoing-fill"/>
+    <text x="134" y="246" class="message-text"><tspan x="134" dy="0">☁ 30°C · cloudy</tspan><tspan x="134" dy="30">Humidity 65% · Wind 2 m/s</tspan><tspan x="134" dy="30">Friday, July 17</tspan></text>
   </g>
   <g class="message incoming" style="animation-delay:1.64s">
-    <path d="M 28 498 L 25 510 C 20 516, 12 519, 3 520 C 12 516, 16 510, 18 501 Z" class="incoming-fill"/>
-    <rect x="8" y="456" width="450" height="58" rx="31" class="incoming-fill"/>
-    <text x="33" y="494" class="message-text"><tspan x="33" dy="0">What are you building now?</tspan></text>
+    <path d="M 28 358 L 25 370 C 20 376, 12 379, 3 380 C 12 376, 16 370, 18 361 Z" class="incoming-fill"/>
+    <rect x="8" y="326" width="360" height="48" rx="24" class="incoming-fill"/>
+    <text x="30" y="358" class="message-text"><tspan x="30" dy="0">What are you building now?</tspan></text>
   </g>
   <g class="message outgoing" style="animation-delay:1.90s">
-      <rect x="252" y="540" width="740" height="112" rx="27" class="outgoing-fill"/>
-      <text x="275" y="571" class="repo-title">seungwonme/skim</text>
-      <text x="275" y="598" class="repo-description"><tspan x="275" dy="0">Local-first information curation pipeline for feeds,</tspan><tspan x="275" dy="23">social timelines, papers, videos, and AI lab updates.</tspan></text>
-      <text x="970" y="639" text-anchor="end" class="repo-meta">Python</text>
+      <rect x="82" y="388" width="550" height="60" rx="22" class="outgoing-fill"/>
+      <text x="102" y="411" class="repo-title">seungwonme/skim</text>
+      <text x="614" y="410" text-anchor="end" class="repo-meta">Python</text>
+      <text x="102" y="435" class="repo-description"><tspan x="102" dy="0">Local-first information curation pipeline for feeds…</tspan></text>
     </g>
   <g class="message outgoing" style="animation-delay:2.12s">
-      <rect x="252" y="660" width="740" height="112" rx="27" class="outgoing-fill"/>
-      <text x="275" y="691" class="repo-title">ai-native-engineer/linkedin-cli</text>
-      <text x="275" y="718" class="repo-description"><tspan x="275" dy="0">Terminal-first LinkedIn CLI: unofficial session-based</tspan><tspan x="275" dy="23">reads + official OAuth publishing, with packaged…</tspan></text>
-      <text x="970" y="759" text-anchor="end" class="repo-meta">Python</text>
+      <rect x="82" y="454" width="550" height="60" rx="22" class="outgoing-fill"/>
+      <text x="102" y="477" class="repo-title">ai-native-engineer/linkedin-cli</text>
+      <text x="614" y="476" text-anchor="end" class="repo-meta">Python</text>
+      <text x="102" y="501" class="repo-description"><tspan x="102" dy="0">Terminal-first LinkedIn CLI: unofficial…</tspan></text>
     </g>
   <g class="message outgoing" style="animation-delay:2.34s">
-      <rect x="252" y="780" width="740" height="112" rx="27" class="outgoing-fill"/>
-      <text x="275" y="811" class="repo-title">ai-native-engineer/astack</text>
-      <text x="275" y="838" class="repo-description"><tspan x="275" dy="0">Aiden&apos;s Stack — curated Claude Code skills, installable as</tspan><tspan x="275" dy="23">a plugin.</tspan></text>
-      <text x="970" y="879" text-anchor="end" class="repo-meta">Python · ★ 1</text>
+      <rect x="82" y="520" width="550" height="60" rx="22" class="outgoing-fill"/>
+      <text x="102" y="543" class="repo-title">ai-native-engineer/astack</text>
+      <text x="614" y="542" text-anchor="end" class="repo-meta">Python · ★ 1</text>
+      <text x="102" y="567" class="repo-description"><tspan x="102" dy="0">Aiden&apos;s Stack — curated Claude Code skills…</tspan></text>
     </g>
   <g class="message outgoing" style="animation-delay:2.56s">
-      <path d="M 972 976 L 975 988 C 980 994, 988 997, 997 998 C 988 994, 984 988, 982 979 Z" class="outgoing-fill"/>
-      <rect x="252" y="900" width="740" height="92" rx="27" class="outgoing-fill"/>
-      <text x="275" y="931" class="repo-title">seungwonme/ai-podcast</text>
-      <text x="275" y="958" class="repo-description"><tspan x="275" dy="0">AI 한 주 브리핑 — 비개발자용 AI 뉴스 팟캐스트 (AI 음성)</tspan></text>
-      <text x="970" y="979" text-anchor="end" class="repo-meta">Shell</text>
+      <path d="M 612 630 L 615 642 C 620 648, 628 651, 637 652 C 628 648, 624 642, 622 633 Z" class="outgoing-fill"/>
+      <rect x="82" y="586" width="550" height="60" rx="22" class="outgoing-fill"/>
+      <text x="102" y="609" class="repo-title">seungwonme/ai-podcast</text>
+      <text x="614" y="608" text-anchor="end" class="repo-meta">Shell</text>
+      <text x="102" y="633" class="repo-description"><tspan x="102" dy="0">AI 한 주 브리핑 — 비개발자용 AI 뉴스 팟캐스트 (AI 음성)</tspan></text>
     </g>
-  <text x="970" y="1028" text-anchor="end" class="receipt">Read: Friday</text>
+  <text x="620" y="666" text-anchor="end" class="receipt">Read: Friday</text>
 </svg>

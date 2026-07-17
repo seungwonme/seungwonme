@@ -9,7 +9,8 @@ const OUTPUT_PATH = resolve(
   dirname(fileURLToPath(import.meta.url)),
   "../assets/imessage.svg",
 );
-const WIDTH = 1000;
+const WIDTH = 640;
+const MESSAGE_LINE_HEIGHT = 30;
 const SEOUL = { latitude: "37.5665", longitude: "126.9780" };
 
 const escapeXml = (value) =>
@@ -168,76 +169,76 @@ function messageBubble({ side, y, width, height, lines, delay, secondary = false
   const x = side === "incoming" ? 8 : WIDTH - width - 8;
   const tone = side === "incoming" ? "incoming-fill" : "outgoing-fill";
   const textClass = secondary ? "message-secondary" : "message-text";
-  const textY = y + (height - (lines.length - 1) * 34) / 2 + 9;
+  const textY = y + (height - (lines.length - 1) * MESSAGE_LINE_HEIGHT) / 2 + 8;
   return `<g class="message ${side}" style="animation-delay:${delay}s">
     ${tail(side, x, y, width, height, tone)}
-    <rect x="${x}" y="${y}" width="${width}" height="${height}" rx="31" class="${tone}"/>
-    ${textLines(lines, x + 25, textY, textClass)}
+    <rect x="${x}" y="${y}" width="${width}" height="${height}" rx="24" class="${tone}"/>
+    ${textLines(lines, x + 22, textY, textClass, MESSAGE_LINE_HEIGHT)}
   </g>`;
 }
 
 function repositoryBubble(repository, index, y, isLast) {
-  const width = 740;
+  const width = 550;
   const x = WIDTH - width - 8;
-  const descriptions = wrapText(repository.description);
-  const height = descriptions.length > 1 ? 112 : 92;
+  const descriptions = wrapText(repository.description, 52, 1);
+  const height = 60;
   const language = repository.primaryLanguage?.name || "Repository";
   const stars = repository.stargazerCount ? ` · ★ ${repository.stargazerCount}` : "";
   const delay = (1.9 + index * 0.22).toFixed(2);
   return {
     height,
     svg: `<g class="message outgoing" style="animation-delay:${delay}s">
-      ${isLast ? `${tail("outgoing", x, y, width, height, "outgoing-fill")}\n      ` : ""}<rect x="${x}" y="${y}" width="${width}" height="${height}" rx="27" class="outgoing-fill"/>
-      <text x="${x + 23}" y="${y + 31}" class="repo-title">${escapeXml(repository.nameWithOwner)}</text>
-      ${textLines(descriptions, x + 23, y + 58, "repo-description", 23)}
-      <text x="${x + width - 22}" y="${y + height - 13}" text-anchor="end" class="repo-meta">${escapeXml(language + stars)}</text>
+      ${isLast ? `${tail("outgoing", x, y, width, height, "outgoing-fill")}\n      ` : ""}<rect x="${x}" y="${y}" width="${width}" height="${height}" rx="22" class="outgoing-fill"/>
+      <text x="${x + 20}" y="${y + 23}" class="repo-title">${escapeXml(repository.nameWithOwner)}</text>
+      <text x="${x + width - 18}" y="${y + 22}" text-anchor="end" class="repo-meta">${escapeXml(language + stars)}</text>
+      ${textLines(descriptions, x + 20, y + 47, "repo-description", 20)}
     </g>`,
   };
 }
 
 function renderSvg({ repositories, weather, now = new Date() }) {
   const messages = [];
-  let y = 24;
+  let y = 16;
 
   messages.push(
     messageBubble({
       side: "incoming",
       y,
-      width: 335,
-      height: 58,
+      width: 250,
+      height: 48,
       lines: ["Hey, I’m Aiden 👋"],
       delay: ".12",
     }),
   );
-  y += 84;
+  y += 62;
   messages.push(
     messageBubble({
       side: "outgoing",
       y,
-      width: 700,
-      height: 88,
+      width: 550,
+      height: 70,
       lines: ["I build AI-native systems that turn", "information into useful work."],
       delay: ".5",
     }),
   );
-  y += 118;
+  y += 84;
   messages.push(
     messageBubble({
       side: "incoming",
       y,
-      width: 370,
-      height: 58,
+      width: 300,
+      height: 48,
       lines: ["How’s Seoul today?"],
       delay: ".88",
     }),
   );
-  y += 84;
+  y += 62;
   messages.push(
     messageBubble({
       side: "outgoing",
       y,
-      width: 670,
-      height: 116,
+      width: 520,
+      height: 88,
       lines: [
         `${weather.emoji} ${weather.temperature}°C · ${weather.description}`,
         `Humidity ${weather.humidity}% · Wind ${weather.windSpeed} m/s`,
@@ -246,30 +247,30 @@ function renderSvg({ repositories, weather, now = new Date() }) {
       delay: "1.26",
     }),
   );
-  y += 146;
+  y += 102;
   messages.push(
     messageBubble({
       side: "incoming",
       y,
-      width: 450,
-      height: 58,
+      width: 360,
+      height: 48,
       lines: ["What are you building now?"],
       delay: "1.64",
     }),
   );
-  y += 84;
+  y += 62;
 
   for (const [index, repository] of repositories.entries()) {
     const bubble = repositoryBubble(repository, index, y, index === repositories.length - 1);
     messages.push(bubble.svg);
-    y += bubble.height + 8;
+    y += bubble.height + 6;
   }
 
-  const height = y + 48;
+  const height = y + 26;
   return `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="${WIDTH}" height="${height}" viewBox="0 0 ${WIDTH} ${height}" role="img" aria-labelledby="title desc">
-  <title id="title">Aiden's live GitHub profile conversation</title>
-  <desc id="desc">A dark iMessage-style conversation showing a Seoul forecast, today's date, and repositories pinned by seungwonme.</desc>
+  <title id="title">Aiden's GitHub profile conversation</title>
+  <desc id="desc">A compact iMessage-style conversation showing a Seoul forecast, today's date, and repositories pinned by seungwonme.</desc>
   <defs>
     <linearGradient id="imessage-blue" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="${height}">
       <stop offset="0" stop-color="#2597ff"/>
@@ -280,12 +281,12 @@ function renderSvg({ repositories, weather, now = new Date() }) {
     .canvas { fill: #1e1e1e; }
     .incoming-fill { fill: #3b3b3d; }
     .outgoing-fill { fill: url(#imessage-blue); }
-    .message-text { fill: #ffffff; font: 400 27px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Apple SD Gothic Neo", "Segoe UI", sans-serif; letter-spacing: -.3px; }
-    .message-secondary { fill: #e1e1e1; font: 400 27px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Apple SD Gothic Neo", "Segoe UI", sans-serif; }
-    .repo-title { fill: #ffffff; font: 650 22px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Apple SD Gothic Neo", "Segoe UI", sans-serif; letter-spacing: -.2px; }
-    .repo-description { fill: #ffffff; font: 400 17px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Apple SD Gothic Neo", "Segoe UI", sans-serif; }
-    .repo-meta { fill: #d7edff; font: 600 13px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Apple SD Gothic Neo", "Segoe UI", sans-serif; }
-    .receipt { fill: #9a9a9a; font: 600 16px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Apple SD Gothic Neo", "Segoe UI", sans-serif; }
+    .message-text { fill: #ffffff; font: 400 24px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Apple SD Gothic Neo", "Segoe UI", sans-serif; letter-spacing: -.3px; }
+    .message-secondary { fill: #e1e1e1; font: 400 24px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Apple SD Gothic Neo", "Segoe UI", sans-serif; }
+    .repo-title { fill: #ffffff; font: 650 21px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Apple SD Gothic Neo", "Segoe UI", sans-serif; letter-spacing: -.2px; }
+    .repo-description { fill: #ffffff; font: 400 16px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Apple SD Gothic Neo", "Segoe UI", sans-serif; }
+    .repo-meta { fill: #d7edff; font: 600 11px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Apple SD Gothic Neo", "Segoe UI", sans-serif; }
+    .receipt { fill: #9a9a9a; font: 600 13px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Apple SD Gothic Neo", "Segoe UI", sans-serif; }
     .message { opacity: 1; }
     @media (prefers-reduced-motion: no-preference) and (update: fast) {
       .message { transform-box: fill-box; animation: message-in .26s cubic-bezier(.2,.8,.2,1) backwards; }
@@ -296,7 +297,7 @@ function renderSvg({ repositories, weather, now = new Date() }) {
   </style>
   <rect width="${WIDTH}" height="${height}" class="canvas"/>
   ${messages.join("\n  ")}
-  <text x="970" y="${height - 20}" text-anchor="end" class="receipt">Read: ${escapeXml(seoulWeekday(now))}</text>
+  <text x="${WIDTH - 20}" y="${height - 12}" text-anchor="end" class="receipt">Read: ${escapeXml(seoulWeekday(now))}</text>
 </svg>
 `;
 }
@@ -366,6 +367,7 @@ function selfTest() {
     now: new Date("2026-07-16T00:00:00Z"),
   });
   assert.match(svg, /seungwonme\/test/);
+  assert.match(svg, /width="640"/);
   assert.match(svg, /Read: Thursday/);
   console.log("Self-test passed.");
 }
