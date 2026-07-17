@@ -32,75 +32,75 @@
   </style>
   <rect width="640" height="554" class="canvas"/>
   <g class="message outgoing" style="animation-delay:.12s">
-    <path d="M 612 48 L 615 60 C 620 66, 628 69, 637 70 C 628 66, 624 60, 622 51 Z" class="outgoing-fill"/>
-    <rect x="412" y="16" width="220" height="48" rx="24" class="outgoing-fill"/>
-    <text x="434" y="48" class="message-text"><tspan x="434" dy="0">Hey, I’m Aiden 👋</tspan></text>
+    <path d="M 604 48 L 607 60 C 612 66, 620 69, 629 70 C 620 66, 616 60, 614 51 Z" class="outgoing-fill"/>
+    <rect x="374" y="16" width="250" height="48" rx="24" class="outgoing-fill"/>
+    <text x="394" y="48" class="message-text"><tspan x="394" dy="0">Hey, I’m Aiden 👋</tspan></text>
   </g>
   <g class="typing incoming" style="animation-delay:.38s">
-    <path d="M 28 104 L 25 116 C 20 122, 12 125, 3 126 C 12 122, 16 116, 18 107 Z" class="incoming-fill"/>
-    <rect x="8" y="78" width="62" height="42" rx="21" class="incoming-fill"/>
-    <circle cx="28" cy="99" r="4" class="typing-dot">
+    <path d="M 36 104 L 33 116 C 28 122, 20 125, 11 126 C 20 122, 24 116, 26 107 Z" class="incoming-fill"/>
+    <rect x="16" y="78" width="62" height="42" rx="21" class="incoming-fill"/>
+    <circle cx="36" cy="99" r="4" class="typing-dot">
       <animate attributeName="opacity" values=".35;1;.35" dur=".75s" begin="0s" repeatCount="indefinite"/>
     </circle>
-    <circle cx="39" cy="99" r="4" class="typing-dot">
+    <circle cx="47" cy="99" r="4" class="typing-dot">
       <animate attributeName="opacity" values=".35;1;.35" dur=".75s" begin="0.15s" repeatCount="indefinite"/>
     </circle>
-    <circle cx="50" cy="99" r="4" class="typing-dot">
+    <circle cx="58" cy="99" r="4" class="typing-dot">
       <animate attributeName="opacity" values=".35;1;.35" dur=".75s" begin="0.3s" repeatCount="indefinite"/>
     </circle>
   </g>
   <g class="message incoming" style="animation-delay:1.38s">
-    <path d="M 28 110 L 25 122 C 20 128, 12 131, 3 132 C 12 128, 16 122, 18 113 Z" class="incoming-fill"/>
-    <rect x="8" y="78" width="200" height="48" rx="24" class="incoming-fill"/>
-    <text x="30" y="110" class="message-text"><tspan x="30" dy="0">What do you do?</tspan></text>
+    <path d="M 36 110 L 33 122 C 28 128, 20 131, 11 132 C 20 128, 24 122, 26 113 Z" class="incoming-fill"/>
+    <rect x="16" y="78" width="240" height="48" rx="24" class="incoming-fill"/>
+    <text x="36" y="110" class="message-text"><tspan x="36" dy="0">What do you do?</tspan></text>
   </g>
   <g class="message outgoing" style="animation-delay:1.76s">
-    <path d="M 612 172 L 615 184 C 620 190, 628 193, 637 194 C 628 190, 624 184, 622 175 Z" class="outgoing-fill"/>
-    <rect x="302" y="140" width="330" height="48" rx="24" class="outgoing-fill"/>
-    <text x="324" y="172" class="message-text"><tspan x="324" dy="0">I focus on working AI-native.</tspan></text>
+    <path d="M 604 172 L 607 184 C 612 190, 620 193, 629 194 C 620 190, 616 184, 614 175 Z" class="outgoing-fill"/>
+    <rect x="244" y="140" width="380" height="48" rx="24" class="outgoing-fill"/>
+    <text x="264" y="172" class="message-text"><tspan x="264" dy="0">I focus on working AI-native.</tspan></text>
   </g>
   <g class="typing incoming" style="animation-delay:2.02s">
-    <path d="M 28 228 L 25 240 C 20 246, 12 249, 3 250 C 12 246, 16 240, 18 231 Z" class="incoming-fill"/>
-    <rect x="8" y="202" width="62" height="42" rx="21" class="incoming-fill"/>
-    <circle cx="28" cy="223" r="4" class="typing-dot">
+    <path d="M 36 228 L 33 240 C 28 246, 20 249, 11 250 C 20 246, 24 240, 26 231 Z" class="incoming-fill"/>
+    <rect x="16" y="202" width="62" height="42" rx="21" class="incoming-fill"/>
+    <circle cx="36" cy="223" r="4" class="typing-dot">
       <animate attributeName="opacity" values=".35;1;.35" dur=".75s" begin="0s" repeatCount="indefinite"/>
     </circle>
-    <circle cx="39" cy="223" r="4" class="typing-dot">
+    <circle cx="47" cy="223" r="4" class="typing-dot">
       <animate attributeName="opacity" values=".35;1;.35" dur=".75s" begin="0.15s" repeatCount="indefinite"/>
     </circle>
-    <circle cx="50" cy="223" r="4" class="typing-dot">
+    <circle cx="58" cy="223" r="4" class="typing-dot">
       <animate attributeName="opacity" values=".35;1;.35" dur=".75s" begin="0.3s" repeatCount="indefinite"/>
     </circle>
   </g>
   <g class="message incoming" style="animation-delay:3.02s">
-    <path d="M 28 234 L 25 246 C 20 252, 12 255, 3 256 C 12 252, 16 246, 18 237 Z" class="incoming-fill"/>
-    <rect x="8" y="202" width="320" height="48" rx="24" class="incoming-fill"/>
-    <text x="30" y="234" class="message-text"><tspan x="30" dy="0">What are you building now?</tspan></text>
+    <path d="M 36 234 L 33 246 C 28 252, 20 255, 11 256 C 20 252, 24 246, 26 237 Z" class="incoming-fill"/>
+    <rect x="16" y="202" width="360" height="48" rx="24" class="incoming-fill"/>
+    <text x="36" y="234" class="message-text"><tspan x="36" dy="0">What are you building now?</tspan></text>
   </g>
   <g class="message outgoing" style="animation-delay:3.40s">
-      <rect x="82" y="264" width="550" height="60" rx="22" class="outgoing-fill"/>
-      <text x="102" y="287" class="repo-title">seungwonme/skim</text>
-      <text x="614" y="286" text-anchor="end" class="repo-meta">Python</text>
-      <text x="102" y="311" class="repo-description"><tspan x="102" dy="0">Local-first information curation pipeline for feeds…</tspan></text>
+      <rect x="74" y="264" width="550" height="60" rx="22" class="outgoing-fill"/>
+      <text x="94" y="287" class="repo-title">seungwonme/skim</text>
+      <text x="606" y="286" text-anchor="end" class="repo-meta">Python</text>
+      <text x="94" y="311" class="repo-description"><tspan x="94" dy="0">Local-first information curation pipeline for feeds…</tspan></text>
     </g>
   <g class="message outgoing" style="animation-delay:3.62s">
-      <rect x="82" y="330" width="550" height="60" rx="22" class="outgoing-fill"/>
-      <text x="102" y="353" class="repo-title">ai-native-engineer/linkedin-cli</text>
-      <text x="614" y="352" text-anchor="end" class="repo-meta">Python</text>
-      <text x="102" y="377" class="repo-description"><tspan x="102" dy="0">Terminal-first LinkedIn CLI: unofficial…</tspan></text>
+      <rect x="74" y="330" width="550" height="60" rx="22" class="outgoing-fill"/>
+      <text x="94" y="353" class="repo-title">ai-native-engineer/linkedin-cli</text>
+      <text x="606" y="352" text-anchor="end" class="repo-meta">Python</text>
+      <text x="94" y="377" class="repo-description"><tspan x="94" dy="0">Terminal-first LinkedIn CLI: unofficial…</tspan></text>
     </g>
   <g class="message outgoing" style="animation-delay:3.84s">
-      <rect x="82" y="396" width="550" height="60" rx="22" class="outgoing-fill"/>
-      <text x="102" y="419" class="repo-title">ai-native-engineer/astack</text>
-      <text x="614" y="418" text-anchor="end" class="repo-meta">Python · ★ 1</text>
-      <text x="102" y="443" class="repo-description"><tspan x="102" dy="0">Aiden&apos;s Stack — curated Claude Code skills…</tspan></text>
+      <rect x="74" y="396" width="550" height="60" rx="22" class="outgoing-fill"/>
+      <text x="94" y="419" class="repo-title">ai-native-engineer/astack</text>
+      <text x="606" y="418" text-anchor="end" class="repo-meta">Python · ★ 1</text>
+      <text x="94" y="443" class="repo-description"><tspan x="94" dy="0">Aiden&apos;s Stack — curated Claude Code skills…</tspan></text>
     </g>
   <g class="message outgoing" style="animation-delay:4.06s">
-      <path d="M 612 506 L 615 518 C 620 524, 628 527, 637 528 C 628 524, 624 518, 622 509 Z" class="outgoing-fill"/>
-      <rect x="82" y="462" width="550" height="60" rx="22" class="outgoing-fill"/>
-      <text x="102" y="485" class="repo-title">seungwonme/ai-podcast</text>
-      <text x="614" y="484" text-anchor="end" class="repo-meta">Shell</text>
-      <text x="102" y="509" class="repo-description"><tspan x="102" dy="0">AI 한 주 브리핑 — 비개발자용 AI 뉴스 팟캐스트 (AI 음성)</tspan></text>
+      <path d="M 604 506 L 607 518 C 612 524, 620 527, 629 528 C 620 524, 616 518, 614 509 Z" class="outgoing-fill"/>
+      <rect x="74" y="462" width="550" height="60" rx="22" class="outgoing-fill"/>
+      <text x="94" y="485" class="repo-title">seungwonme/ai-podcast</text>
+      <text x="606" y="484" text-anchor="end" class="repo-meta">Shell</text>
+      <text x="94" y="509" class="repo-description"><tspan x="94" dy="0">AI 한 주 브리핑 — 비개발자용 AI 뉴스 팟캐스트 (AI 음성)</tspan></text>
     </g>
   <text x="620" y="542" text-anchor="end" class="receipt">Read: Friday</text>
 </svg>

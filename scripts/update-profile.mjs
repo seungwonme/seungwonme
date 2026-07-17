@@ -10,6 +10,10 @@ const OUTPUT_PATH = resolve(
   "../assets/imessage.svg",
 );
 const WIDTH = 640;
+const SIDE_INSET = 16;
+const MESSAGE_HEIGHT = 48;
+const MESSAGE_GAP = 14;
+const MESSAGE_PADDING_X = 20;
 const MESSAGE_LINE_HEIGHT = 30;
 
 const escapeXml = (value) =>
@@ -98,20 +102,20 @@ function tail(side, x, y, width, height, tone) {
 }
 
 function messageBubble({ side, y, width, lines, delay, secondary = false }) {
-  const height = 48 + (lines.length - 1) * MESSAGE_LINE_HEIGHT;
-  const x = side === "incoming" ? 8 : WIDTH - width - 8;
+  const height = MESSAGE_HEIGHT + (lines.length - 1) * MESSAGE_LINE_HEIGHT;
+  const x = side === "incoming" ? SIDE_INSET : WIDTH - width - SIDE_INSET;
   const tone = side === "incoming" ? "incoming-fill" : "outgoing-fill";
   const textClass = secondary ? "message-secondary" : "message-text";
   const textY = y + (height - (lines.length - 1) * MESSAGE_LINE_HEIGHT) / 2 + 8;
   return `<g class="message ${side}" style="animation-delay:${delay}s">
     ${tail(side, x, y, width, height, tone)}
     <rect x="${x}" y="${y}" width="${width}" height="${height}" rx="24" class="${tone}"/>
-    ${textLines(lines, x + 22, textY, textClass, MESSAGE_LINE_HEIGHT)}
+    ${textLines(lines, x + MESSAGE_PADDING_X, textY, textClass, MESSAGE_LINE_HEIGHT)}
   </g>`;
 }
 
 function typingBubble(y, delay) {
-  const x = 8;
+  const x = SIDE_INSET;
   const width = 62;
   const height = 42;
   return `<g class="typing incoming" style="animation-delay:${delay}s">
@@ -129,7 +133,7 @@ function typingBubble(y, delay) {
 
 function repositoryBubble(repository, index, y, isLast) {
   const width = 550;
-  const x = WIDTH - width - 8;
+  const x = WIDTH - width - SIDE_INSET;
   const descriptions = wrapText(repository.description, 52, 1);
   const height = 60;
   const language = repository.primaryLanguage?.name || "Repository";
@@ -148,50 +152,50 @@ function repositoryBubble(repository, index, y, isLast) {
 
 function renderSvg({ repositories, now = new Date() }) {
   const messages = [];
-  let y = 16;
+  let y = SIDE_INSET;
 
   messages.push(
     messageBubble({
       side: "outgoing",
       y,
-      width: 220,
+      width: 250,
       lines: ["Hey, I’m Aiden 👋"],
       delay: ".12",
     }),
   );
-  y += 62;
+  y += MESSAGE_HEIGHT + MESSAGE_GAP;
   messages.push(typingBubble(y, ".38"));
   messages.push(
     messageBubble({
       side: "incoming",
       y,
-      width: 200,
+      width: 240,
       lines: ["What do you do?"],
       delay: "1.38",
     }),
   );
-  y += 62;
+  y += MESSAGE_HEIGHT + MESSAGE_GAP;
   messages.push(
     messageBubble({
       side: "outgoing",
       y,
-      width: 330,
+      width: 380,
       lines: ["I focus on working AI-native."],
       delay: "1.76",
     }),
   );
-  y += 62;
+  y += MESSAGE_HEIGHT + MESSAGE_GAP;
   messages.push(typingBubble(y, "2.02"));
   messages.push(
     messageBubble({
       side: "incoming",
       y,
-      width: 320,
+      width: 360,
       lines: ["What are you building now?"],
       delay: "3.02",
     }),
   );
-  y += 62;
+  y += MESSAGE_HEIGHT + MESSAGE_GAP;
 
   for (const [index, repository] of repositories.entries()) {
     const bubble = repositoryBubble(repository, index, y, index === repositories.length - 1);
@@ -263,6 +267,9 @@ function selfTest() {
   assert.match(svg, /seungwonme\/test/);
   assert.match(svg, /width="640"/);
   assert.match(svg, /What do you do\?/);
+  assert.match(svg, /x="374" y="16" width="250" height="48"/);
+  assert.match(svg, /x="16" y="78" width="240" height="48"/);
+  assert.match(svg, /x="244" y="140" width="380" height="48"/);
   assert.match(svg, /class="typing incoming"/);
   assert.doesNotMatch(svg, /weather|forecast/i);
   assert.match(svg, /Read: Thursday/);
