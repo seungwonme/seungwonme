@@ -45,7 +45,7 @@
   <g class="message outgoing" style="animation-delay:1.26s">
     <path d="M 972 410 L 975 422 C 980 428, 988 431, 997 432 C 988 428, 984 422, 982 413 Z" class="outgoing-fill"/>
     <rect x="322" y="310" width="670" height="116" rx="31" class="outgoing-fill"/>
-    <text x="347" y="343" class="message-text"><tspan x="347" dy="0">☁ 28°C · cloudy</tspan><tspan x="347" dy="34">Humidity 73% · Wind 2 m/s</tspan><tspan x="347" dy="34">Thursday, July 16</tspan></text>
+    <text x="347" y="343" class="message-text"><tspan x="347" dy="0">☁ 29°C · cloudy</tspan><tspan x="347" dy="34">Humidity 68% · Wind 2 m/s</tspan><tspan x="347" dy="34">Friday, July 17</tspan></text>
   </g>
   <g class="message incoming" style="animation-delay:1.64s">
     <path d="M 28 498 L 25 510 C 20 516, 12 519, 3 520 C 12 516, 16 510, 18 501 Z" class="incoming-fill"/>
@@ -77,5 +77,5 @@
       <text x="275" y="958" class="repo-description"><tspan x="275" dy="0">AI 한 주 브리핑 — 비개발자용 AI 뉴스 팟캐스트 (AI 음성)</tspan></text>
       <text x="970" y="979" text-anchor="end" class="repo-meta">Shell</text>
     </g>
-  <text x="970" y="1028" text-anchor="end" class="receipt">Read: Thursday</text>
+  <text x="970" y="1028" text-anchor="end" class="receipt">Read: Friday</text>
 </svg>
