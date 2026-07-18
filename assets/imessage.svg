@@ -86,7 +86,7 @@
   <g class="message outgoing" style="animation-delay:3.62s">
       <rect x="74" y="330" width="550" height="60" rx="22" class="outgoing-fill"/>
       <text x="94" y="353" class="repo-title">ai-native-engineer/linkedin-cli</text>
-      <text x="606" y="352" text-anchor="end" class="repo-meta">Python</text>
+      <text x="606" y="352" text-anchor="end" class="repo-meta">Python · ★ 1</text>
       <text x="94" y="377" class="repo-description"><tspan x="94" dy="0">Terminal-first LinkedIn CLI: unofficial…</tspan></text>
     </g>
   <g class="message outgoing" style="animation-delay:3.84s">
@@ -102,5 +102,5 @@
       <text x="606" y="484" text-anchor="end" class="repo-meta">Shell</text>
       <text x="94" y="509" class="repo-description"><tspan x="94" dy="0">AI 한 주 브리핑 — 비개발자용 AI 뉴스 팟캐스트 (AI 음성)</tspan></text>
     </g>
-  <text x="620" y="542" text-anchor="end" class="receipt">Read: Friday</text>
+  <text x="620" y="542" text-anchor="end" class="receipt">Read: Saturday</text>
 </svg>
